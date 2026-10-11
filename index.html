@@ -111,20 +111,6 @@
         }
         .svg-line-draw.active { stroke-dashoffset: 0; }
 
-        .diagram-step {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        @keyframes dashTravel {
-            to { stroke-dashoffset: -100; }
-        }
-        .animate-dash-flow {
-            stroke-dasharray: 12 12;
-            animation: dashTravel 2s linear infinite;
-        }
-
         .reveal-up {
             opacity: 0;
             transform: translateY(30px);
@@ -146,11 +132,18 @@
         }
         .cap-arrow-move { transition: transform 0.3s ease; }
         .cap-row-active .cap-arrow-move { transform: translateX(8px); }
+
+        @keyframes dashTravel {
+            to { stroke-dashoffset: -100; }
+        }
+        .animate-dash-flow {
+            stroke-dasharray: 12 12;
+            animation: dashTravel 2s linear infinite;
+        }
     </style>
 </head>
 <body x-data="appData()" x-init="init()" @mousemove="handleCursor($event)">
 
-    <!-- BRAND INTRO OVERLAY -->
     <div id="brand-intro" 
          x-show="introActive"
          x-transition:leave="transition-opacity duration-700 ease-in-out"
@@ -180,18 +173,17 @@
     <div id="custom-cursor" class="hidden lg:block"></div>
     <div id="custom-cursor-ring" class="hidden lg:block"></div>
 
-    <!-- STICKY HEADER -->
-    <header :class="isScrolled ? 'bg-brand-black/95 backdrop-blur-md border-b border-white/10 py-3.5' : 'bg-transparent py-5'" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3.5 group flex-shrink-0 mr-4 lg:mr-8">
-                <div class="relative w-11 h-11 flex-shrink-0">
+    <header :class="isScrolled ? 'bg-brand-black/95 backdrop-blur-md border-b border-white/10 py-3.5' : 'bg-brand-black/80 backdrop-blur-sm py-4'" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-12 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 group flex-shrink-0 mr-1 sm:mr-3 lg:mr-8 min-w-0">
+                <div class="relative w-8 h-8 sm:w-11 sm:h-11 flex-shrink-0">
                     <img src="https://cdn.phototourl.com/member/2026-09-27-f998a1a6-e9c4-46c3-8a87-d45dd4ae1925.png" alt="Logo" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-[0_2px_8px_rgba(215,25,32,0.4)]"/>
                 </div>
-                <div class="flex flex-col">
-                    <span class="font-serif font-bold text-sm sm:text-base leading-snug tracking-wide text-white whitespace-nowrap">
+                <div class="flex flex-col min-w-0">
+                    <span class="font-serif font-bold text-[10px] sm:text-sm md:text-base leading-snug tracking-wide text-white truncate">
                         PT. <span class="text-brand-red">DZAKIY</span> MAJU BERSAMA
                     </span>
-                    <span class="text-[7.5px] sm:text-[8.5px] uppercase tracking-[0.2em] text-brand-muted font-mono whitespace-nowrap" x-text="t('subTagline')"></span>
+                    <span class="text-[6px] sm:text-[8.5px] uppercase tracking-[0.15em] sm:tracking-[0.2em] text-brand-muted font-mono truncate" x-text="t('subTagline')"></span>
                 </div>
             </a>
 
@@ -204,11 +196,11 @@
                 <a href="#management" class="text-xs uppercase tracking-widest font-semibold text-brand-light/80 hover:text-brand-red transition-colors whitespace-nowrap" x-text="t('navManagement')"></a>
             </nav>
 
-            <div class="flex items-center gap-4">
-                <div class="flex items-center bg-brand-dark/90 border border-white/20 p-1 text-xs font-mono font-bold">
-                    <button @click="lang = 'ID'" :class="lang === 'ID' ? 'bg-brand-red text-white shadow-sm' : 'text-brand-muted hover:text-white'" class="px-2.5 py-1 transition-all duration-200 uppercase">ID</button>
+            <div class="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+                <div class="flex items-center bg-brand-dark border border-white/20 p-0.5 sm:p-1 text-[10px] sm:text-xs font-mono font-bold flex-shrink-0">
+                    <button @click="lang = 'ID'" :class="lang === 'ID' ? 'bg-brand-red text-white shadow-sm' : 'text-brand-muted hover:text-white'" class="px-1.5 sm:px-2 py-0.5 sm:py-1 transition-all duration-200 uppercase">ID</button>
                     <span class="text-white/20 px-0.5">|</span>
-                    <button @click="lang = 'EN'" :class="lang === 'EN' ? 'bg-brand-red text-white shadow-sm' : 'text-brand-muted hover:text-white'" class="px-2.5 py-1 transition-all duration-200 uppercase">EN</button>
+                    <button @click="lang = 'EN'" :class="lang === 'EN' ? 'bg-brand-red text-white shadow-sm' : 'text-brand-muted hover:text-white'" class="px-1.5 sm:px-2 py-0.5 sm:py-1 transition-all duration-200 uppercase">EN</button>
                 </div>
                 <div class="hidden lg:flex items-center">
                     <button @click="modalOpen = true" @mouseenter="hoverCta(true)" @mouseleave="hoverCta(false)" class="group relative inline-flex items-center justify-center px-5 py-2.5 sm:px-6 sm:py-3 text-xs uppercase tracking-wider font-bold text-white bg-brand-red hover:bg-brand-redHover transition-all duration-300 overflow-hidden whitespace-nowrap shadow-lg hover:shadow-brand-red/30">
@@ -218,13 +210,14 @@
                         </span>
                     </button>
                 </div>
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-white p-2 focus:outline-none">
-                    <i :data-lucide="mobileMenuOpen ? 'x' : 'menu'" class="w-6 h-6 text-brand-light"></i>
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="xl:hidden bg-brand-dark text-white p-2 border border-brand-red/60 rounded focus:outline-none flex items-center justify-center shadow-md active:bg-brand-red/20 flex-shrink-0">
+                    <i :data-lucide="mobileMenuOpen ? 'x' : 'menu'" class="w-5 h-5 text-brand-red"></i>
                 </button>
             </div>
         </div>
 
-        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4" class="lg:hidden bg-brand-black/98 border-b border-brand-red/30 px-6 py-8 fixed inset-x-0 top-[70px] z-40 flex flex-col gap-6">
+        <!-- Mobile Menu Drawer -->
+        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4" class="xl:hidden bg-brand-dark border-b border-brand-red/60 px-6 py-8 fixed inset-x-0 top-[72px] z-40 flex flex-col gap-6 shadow-2xl" style="display: none;">
             <a @click="mobileMenuOpen = false" href="#about" class="text-sm uppercase tracking-widest font-semibold text-brand-light hover:text-brand-red" x-text="t('navWhoWeAre')"></a>
             <a @click="mobileMenuOpen = false" href="#how-we-connect" class="text-sm uppercase tracking-widest font-semibold text-brand-light hover:text-brand-red" x-text="t('navConnectionLayer')"></a>
             <a @click="mobileMenuOpen = false" href="#capabilities" class="text-sm uppercase tracking-widest font-semibold text-brand-light hover:text-brand-red" x-text="t('navCapabilities')"></a>
@@ -233,20 +226,19 @@
             <a @click="mobileMenuOpen = false" href="#management" class="text-sm uppercase tracking-widest font-semibold text-brand-light hover:text-brand-red" x-text="t('navManagement')"></a>
             <div class="pt-4 border-t border-white/10 flex items-center justify-between">
                 <span class="text-xs uppercase font-mono text-brand-muted">Language / Bahasa:</span>
-                <div class="flex items-center bg-brand-dark border border-white/20 p-1 text-xs font-mono font-bold">
-                    <button @click="lang = 'ID'" :class="lang === 'ID' ? 'bg-brand-red text-white' : 'text-brand-muted'" class="px-3 py-1">ID</button>
-                    <button @click="lang = 'EN'" :class="lang === 'EN' ? 'bg-brand-red text-white' : 'text-brand-muted'" class="px-3 py-1">EN</button>
+                <div class="flex items-center bg-brand-black border border-white/20 p-1 text-xs font-mono font-bold">
+                    <button @click="lang = 'ID'" :class="lang === 'ID' ? 'bg-brand-red text-white' : 'text-brand-muted'" class="px-3 py-1 uppercase">ID</button>
+                    <button @click="lang = 'EN'" :class="lang === 'EN' ? 'bg-brand-red text-white' : 'text-brand-muted'" class="px-3 py-1 uppercase">EN</button>
                 </div>
             </div>
             <div>
-                <button @click="mobileMenuOpen = false; modalOpen = true" class="w-full py-3 bg-brand-red text-white font-bold uppercase tracking-wider text-center text-sm flex items-center justify-center gap-2">
+                <button @click="mobileMenuOpen = false; modalOpen = true" class="w-full py-3 bg-brand-red text-white font-bold uppercase tracking-wider text-center text-sm flex items-center justify-center gap-2 shadow-lg">
                     <span x-text="t('ctaDiscuss')"></span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
     <section class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-brand-black bg-grid-pattern">
         <div :class="loaded ? 'opacity-0 pointer-events-none' : 'opacity-100'" class="fixed inset-0 bg-brand-black z-50 transition-opacity duration-700"></div>
         <div class="absolute inset-0 z-0 overflow-hidden">
@@ -296,7 +288,6 @@
         </div>
     </section>
 
-    <!-- SECTION 02: WHO WE ARE -->
     <section id="about" class="relative py-28 bg-brand-light text-brand-black border-t border-white/10 overflow-hidden">
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl px-6 lg:px-12 pointer-events-none">
             <div class="w-[2px] h-12 bg-gradient-to-b from-brand-red to-transparent mx-auto"></div>
@@ -323,7 +314,7 @@
                         <div class="relative bg-brand-dark flex items-center justify-center overflow-hidden">
                             <img src="https://cdn.phototourl.com/member/2026-10-08-4d74e40d-3fde-4e25-8bb5-456d3a9a881a.jpg" alt="Commodity & Resources" class="w-full h-auto object-contain filter contrast-125 saturate-110 hover:scale-105 transition-transform duration-700"/>
                         </div>
-                        <div class="pt-6 pb-2 text-left border-t border-brand-black/10">
+                        <div class="pt-6 pb-2 text-left border-t border-brand-black/15">
                             <span class="bg-brand-red text-white text-[9px] font-bold px-2.5 py-1 tracking-widest uppercase inline-block mb-2">SUMBER DAYA & KOMODITAS</span>
                             <p class="font-mono text-xs font-bold text-brand-black tracking-wide uppercase">BATU BARA, PASIR, BAUKSIT & PERDAGANGAN KOMODITAS BESAR LAINNYA</p>
                         </div>
@@ -333,10 +324,9 @@
         </div>
     </section>
 
-    <!-- SECTION 03: PROJECT FINANCING (Editorial Corporate Presentation Style) -->
     <section id="how-we-connect" class="relative py-28 bg-[#050505] text-[#F2F2F0] overflow-hidden border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-            <!-- TOP LABEL -->
+            <!-- TOP LABEL WITH THIN RED LINE -->
             <div class="flex items-center gap-4 mb-12">
                 <span class="font-bold text-xl sm:text-2xl tracking-widest text-[#D71920]">03</span>
                 <span class="text-xs uppercase tracking-[0.25em] font-mono text-[#A0A0A0]" x-text="t('p03TopLabel')">PROJECT FINANCING</span>
@@ -345,7 +335,9 @@
 
             <!-- MAIN HEADLINE -->
             <div class="mb-16 max-w-4xl">
-                <h2 class="font-bold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white uppercase leading-[1.1]" x-html="t('p03Headline')"></h2>
+                <h2 class="font-bold text-3xl sm:text-5xl md:text-6xl tracking-tight text-white uppercase leading-[1.1]">
+                    DARI KEBUTUHAN PROYEK<br>MENUJU PELUANG TERSTRUKTUR.
+                </h2>
             </div>
 
             <!-- SERVICE STRUCTURE -->
@@ -444,10 +436,12 @@
                     <p class="font-serif italic text-lg sm:text-2xl text-white leading-relaxed" x-text="t('p03Quote')"></p>
                 </blockquote>
             </div>
+
+            <!-- Bottom Divider -->
+            <div class="mt-12 pt-6 border-t border-[#262626]"></div>
         </div>
     </section>
 
-    <!-- SECTION 04: CAPABILITIES -->
     <section id="capabilities" class="py-28 bg-brand-black text-brand-light border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="mb-16 reveal-up">
@@ -487,7 +481,7 @@
                             </ul>
                         </div>
                         <div class="lg:col-span-5 overflow-hidden">
-                            <img src="https://cdn.phototourl.com/member/2026-10-09-4e9260b5-fb99-4f56-b6cd-0ac61b08173c.jpg" alt="Advisory" class="w-full h-48 sm:h-56 object-cover filter grayscale contrast-125 border-l-2 border-brand-red cap-img-slide"/>
+                            <img src="https://cdn.phototourl.com/member/2026-10-09-4e9260b5-fb99-4f56-b6cd-0ac61b08173c.jpg" alt="Advisory" class="w-full h-48 sm:h-56 object-cover filter contrast-125 border-l-2 border-brand-red cap-img-slide"/>
                         </div>
                     </div>
                 </div>
@@ -555,9 +549,8 @@
         </div>
     </section>
 
-    <!-- SECTION 05: BUSINESS ECOSYSTEM -->
     <section id="ecosystem" class="py-28 bg-brand-dark text-brand-light border-t border-white/10 bg-grid-pattern relative overflow-hidden">
-        <div class="hidden md:block absolute top-1/2 left-0 right-0 h-4 -translate-y-1/2 z-0">
+        <div class="hidden xl:block absolute top-1/2 left-0 right-0 h-4 -translate-y-1/2 z-0">
             <svg class="w-full h-4" preserveAspectRatio="none" viewBox="0 0 1000 10">
                 <line x1="0" y1="5" x2="1000" y2="5" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
                 <line x1="0" y1="5" x2="1000" y2="5" stroke="#D71920" stroke-width="3" class="animate-dash-flow"/>
@@ -575,8 +568,8 @@
                 </h2>
             </div>
 
-            <div id="eco-nodes-container" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-stretch">
-                <div @click="activeEcoStep = 1" @mouseenter="activeEcoStep = 1" :class="activeEcoStep === 1 ? 'border-brand-red bg-brand-black shadow-lg scale-102' : 'border-white/10 bg-brand-black/80'" class="p-6 border transition-all duration-300 cursor-pointer relative group reveal-up flex flex-col justify-between">
+            <div id="eco-nodes-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 items-stretch">
+                <div @click="activeEcoStep = 1" @mouseenter="activeEcoStep = 1" :class="activeEcoStep === 1 ? 'border-brand-red bg-brand-black shadow-lg' : 'border-white/10 bg-brand-black/80'" class="p-6 border transition-all duration-300 cursor-pointer relative group reveal-up flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-brand-red font-bold text-xs">01</span>
@@ -588,7 +581,7 @@
                     <div class="mt-4 pt-3 border-t border-white/10 text-[10px] font-mono text-brand-muted" x-text="t('ecoStep1Foot')"></div>
                 </div>
 
-                <div @click="activeEcoStep = 2" @mouseenter="activeEcoStep = 2" :class="activeEcoStep === 2 ? 'border-brand-red bg-brand-black shadow-lg scale-102' : 'border-white/10 bg-brand-black/80'" class="p-6 border transition-all duration-300 cursor-pointer relative group reveal-up flex flex-col justify-between">
+                <div @click="activeEcoStep = 2" @mouseenter="activeEcoStep = 2" :class="activeEcoStep === 2 ? 'border-brand-red bg-brand-black shadow-lg' : 'border-white/10 bg-brand-black/80'" class="p-6 border transition-all duration-300 cursor-pointer relative group reveal-up flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-brand-red font-bold text-xs">02</span>
@@ -600,8 +593,8 @@
                     <div class="mt-4 pt-3 border-t border-white/10 text-[10px] font-mono text-brand-muted" x-text="t('ecoStep2Foot')"></div>
                 </div>
 
-                <div @click="activeEcoStep = 3" @mouseenter="activeEcoStep = 3" :class="activeEcoStep === 3 ? 'border-brand-red bg-brand-black ring-2 ring-brand-red shadow-2xl scale-105' : 'border-brand-red/60 bg-brand-black'" class="p-6 border-2 transition-all duration-300 cursor-pointer relative group bg-brand-black reveal-up flex flex-col justify-between">
-                    <div class="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-brand-red text-white text-[9px] font-bold px-2 py-0.5 tracking-wider uppercase shadow-md whitespace-nowrap" x-text="t('nodeCenterBadge')"></div>
+                <div @click="activeEcoStep = 3" @mouseenter="activeEcoStep = 3" :class="activeEcoStep === 3 ? 'border-brand-red bg-brand-black ring-2 ring-brand-red shadow-2xl xl:-translate-y-2' : 'border-brand-red/60 bg-brand-black'" class="p-6 border-2 transition-all duration-300 cursor-pointer relative group bg-brand-black reveal-up flex flex-col justify-between">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-red text-white text-[9px] font-bold px-2.5 py-1 tracking-wider uppercase shadow-md whitespace-nowrap z-20" x-text="t('nodeCenterBadge')"></div>
                     <div>
                         <div class="flex items-center justify-between mb-4 pt-1">
                             <span class="text-brand-red font-bold text-xs">03</span>
@@ -613,7 +606,7 @@
                     <div class="mt-4 pt-3 border-t border-brand-red/30 text-[10px] font-mono text-brand-red font-bold" x-text="t('ecoStep3Foot')"></div>
                 </div>
 
-                <div @click="activeEcoStep = 4" @mouseenter="activeEcoStep = 4" :class="activeEcoStep === 4 ? 'border-brand-red bg-brand-black shadow-lg scale-102' : 'border-white/10 bg-brand-black/80'" class="p-6 border transition-all duration-300 cursor-pointer relative group reveal-up flex flex-col justify-between">
+                <div @click="activeEcoStep = 4" @mouseenter="activeEcoStep = 4" :class="activeEcoStep === 4 ? 'border-brand-red bg-brand-black shadow-lg' : 'border-white/10 bg-brand-black/80'" class="p-6 border transition-all duration-300 cursor-pointer relative group reveal-up flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-brand-red font-bold text-xs">04</span>
@@ -625,7 +618,7 @@
                     <div class="mt-4 pt-3 border-t border-white/10 text-[10px] font-mono text-brand-muted" x-text="t('ecoStep4Foot')"></div>
                 </div>
 
-                <div @click="activeEcoStep = 5" @mouseenter="activeEcoStep = 5" :class="activeEcoStep === 5 ? 'border-brand-red bg-brand-black shadow-lg scale-102' : 'border-white/10 bg-brand-black/80'" class="p-6 border transition-all duration-300 cursor-pointer relative group reveal-up flex flex-col justify-between">
+                <div @click="activeEcoStep = 5" @mouseenter="activeEcoStep = 5" :class="activeEcoStep === 5 ? 'border-brand-red bg-brand-black shadow-lg' : 'border-white/10 bg-brand-black/80'" class="p-6 border transition-all duration-300 cursor-pointer relative group reveal-up flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-brand-red font-bold text-xs">05</span>
@@ -640,7 +633,6 @@
         </div>
     </section>
 
-    <!-- SECTION 06: BUSINESS AREAS -->
     <section id="business-areas" class="py-28 bg-brand-black text-brand-light border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="mb-16 reveal-up">
@@ -697,7 +689,6 @@
         </div>
     </section>
 
-    <!-- SECTION 07: WHY DZAKIY -->
     <section class="py-28 bg-brand-dark text-brand-light border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="mb-16 reveal-up">
@@ -736,7 +727,6 @@
         </div>
     </section>
 
-    <!-- SECTION 08: MANAGEMENT -->
     <section id="management" class="py-28 bg-brand-black text-brand-light border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="mb-16 reveal-up">
@@ -799,7 +789,6 @@
         </div>
     </section>
 
-    <!-- SECTION 09: FINAL CTA -->
     <section id="final-cta-trigger" class="py-28 bg-brand-black text-brand-light relative border-t border-brand-red/40 overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -833,10 +822,10 @@
 
                     <div class="space-y-4 text-xs font-mono text-brand-muted">
                         <div class="flex items-start gap-3">
-                            <i data-lucide="mail" class="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5"></i>
+                            <svg class="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5 fill-current" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                             <div>
                                 <span class="text-white block font-sans font-bold mb-0.5 uppercase" x-text="t('hqEmailLabel')"></span>
-                                <a href="mailto:dzakiymajubersama@gmail.com" class="text-brand-red hover:underline">dzakiymajubersama@gmail.com</a>
+                                <a href="mailto:legal@dzakiymajubersama.com" class="text-brand-red hover:underline">legal@dzakiymajubersama.com</a>
                             </div>
                         </div>
 
@@ -849,7 +838,7 @@
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5"></i>
+                            <svg class="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                             <div>
                                 <span class="text-white block font-sans font-bold mb-0.5 uppercase" x-text="t('hqLocLabel')"></span>
                                 <span x-text="t('hqLocValue')"></span>
@@ -857,7 +846,7 @@
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <i data-lucide="file-text" class="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5"></i>
+                            <svg class="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5 fill-current" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
                             <div>
                                 <span class="text-white block font-sans font-bold mb-0.5 uppercase">NPWP</span>
                                 <span>1000 0000 1105</span>
@@ -865,7 +854,7 @@
                         </div>
 
                         <div class="flex items-start gap-3">
-                            <i data-lucide="shield-check" class="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5"></i>
+                            <svg class="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5 fill-current" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
                             <div>
                                 <span class="text-white block font-sans font-bold mb-0.5 uppercase">NIB</span>
                                 <span>0709260103736</span>
@@ -877,7 +866,7 @@
         </div>
     </section>
 
-    <!-- FLOATING PERSISTENT WHATSAPP TOGGLE BUTTON WITH BRAND RED ACCENT -->
+    <!-- FLOATING PERSISTENT RED WHATSAPP TOGGLE BUTTON WITH WHITE VECTOR ICON -->
     <a href="https://wa.me/628133132006?text=Halo%20PT.%20Dzakiy%20Maju%20Bersama%2C%20saya%20tertarik%20untuk%20mengetahui%20lebih%20lanjut%20mengenai%20layanan%20dan%20peluang%20kerja%20sama." 
        target="_blank" 
        @mouseenter="hoverCta(true)" 
@@ -889,7 +878,6 @@
         </svg>
     </a>
 
-    <!-- FOOTER -->
     <footer class="py-12 bg-brand-black border-t border-white/10 text-xs text-brand-muted">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
@@ -913,7 +901,6 @@
         </div>
     </footer>
 
-    <!-- INQUIRY MODAL -->
     <div x-show="modalOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-brand-black/90 backdrop-blur-md" style="display: none;">
         <div @click.away="modalOpen = false" class="bg-brand-dark border-2 border-brand-red max-w-2xl w-full p-8 relative shadow-2xl overflow-y-auto max-h-[90vh]">
             <button @click="modalOpen = false" class="absolute top-6 right-6 text-brand-muted hover:text-white transition-colors">
@@ -1007,7 +994,6 @@
                 sec2P2: "Kami mendukung seluruh siklus transaksi mulai dari penilaian strategis tahap awal hingga peluang terstruktur, pencocokan pihak lawan (counterparty), dan eksekusi komersial.",
 
                 p03TopLabel: "PROJECT FINANCING",
-                p03Headline: "DARI KEBUTUHAN PROYEK<br>MENUJU PELUANG TERSTRUKTUR.",
                 p03S1Title: "ADVISORY",
                 p03S1Desc: "Memahami kebutuhan proyek dan capital.",
                 p03S2Title: "CONNECTION",
@@ -1116,11 +1102,11 @@
                 finalTitle2: "KONEKSI YANG TEPAT.",
                 finalDesc: "Memiliki proyek, kebutuhan modal, pasokan komoditas, peluang pasar, atau kemitraan strategis? Mari diskusikan bagaimana PT. DZAKIY MAJU BERSAMA dapat merancang struktur dan menghubungkan peluang Anda dengan pihak lawan yang tepat.",
                 finalCtaBtn: "DISKUSIKAN PELUANG ANDA",
-                hqTitle: "KANTOR PUSAT PERUSAHAAN",
+                hqTitle: "ALAMAT KANTOR PUSAT",
                 hqEmailLabel: "EMAIL",
                 hqWaLabel: "WHATSAPP",
                 hqLocLabel: "ALAMAT",
-                hqLocValue: "EghtyEgiht@Kasablanka Tower A,10E Floor, Casablanca No 88, Jakarta 12780",
+                hqLocValue: "EightyEight@Kasablanka Tower A, 10E Floor, Casablanca No 88, Jakarta 12780",
                 footerRights: "Hak Cipta Dilindungi Undang-Undang.",
 
                 modalHeaderBadge: "INQUIRY TRANSAKSI & PROYEK",
@@ -1169,17 +1155,16 @@
                 sec2P2: "We support the entire transaction lifecycle from early-stage strategic assessment through structured opportunities, counterparty matching, and commercial execution.",
 
                 p03TopLabel: "PROJECT FINANCING",
-                p03Headline: "DARI KEBUTUHAN PROYEK<br>MENUJU PELUANG TERSTRUKTUR.",
                 p03S1Title: "ADVISORY",
-                p03S1Desc: "Memahami kebutuhan proyek dan capital.",
+                p03S1Desc: "Understanding project needs and capital requirements.",
                 p03S2Title: "CONNECTION",
-                p03S2Desc: "Mengidentifikasi dan menghubungkan counterpart yang relevan.",
+                p03S2Desc: "Identifying and connecting relevant counterparties.",
                 p03S3Title: "ARRANGEMENT",
-                p03S3Desc: "Mengkoordinasikan pihak dan framework transaksi.",
+                p03S3Desc: "Coordinating parties and transaction frameworks.",
                 p03S4Title: "TRANSACTION SUPPORT",
-                p03S4Desc: "Mendukung komunikasi dan proses menuju eksekusi.",
+                p03S4Desc: "Supporting communication and execution processes.",
                 p03DiagramTitle: "TRANSACTION RELATIONSHIP ARCHITECTURE",
-                p03Quote: "“Kami tidak sekadar mempertemukan pihak. Kami menciptakan konteks agar pihak yang tepat dapat duduk di meja yang sama.”",
+                p03Quote: "“We do not merely introduce parties. We create the context for the right people to sit at the same table.”",
 
                 sec4Sub: "CAPABILITIES",
                 sec4Title1: "THREE PILLARS",
@@ -1278,11 +1263,11 @@
                 finalTitle2: "THE RIGHT CONNECTION.",
                 finalDesc: "Have a project, capital requirement, supply need, market opportunity, or strategic partnership in mind? Let’s discuss how PT. DZAKIY MAJU BERSAMA can structure and connect your opportunity with the right counterparties.",
                 finalCtaBtn: "DISCUSS YOUR OPPORTUNITY",
-                hqTitle: "CORPORATE HEADQUARTERS",
+                hqTitle: "HEADQUARTERS ADDRESS",
                 hqEmailLabel: "EMAIL",
                 hqWaLabel: "WHATSAPP",
                 hqLocLabel: "ADDRESS",
-                hqLocValue: "EghtyEgiht@Kasablanka Tower A,10E Floor, Casablanca No 88, Jakarta 12780",
+                hqLocValue: "EightyEight@Kasablanka Tower A, 10E Floor, Casablanca No 88, Jakarta 12780",
                 footerRights: "All rights reserved.",
 
                 modalHeaderBadge: "TRANSACTION & PROJECT INQUIRY",
